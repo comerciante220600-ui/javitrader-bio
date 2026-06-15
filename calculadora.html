@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de ahorro · JaviTrader Inversión</title>
+<style>
+  :root{--bg:#0c0c0e;--card:#16161a;--line:#2a2a30;--txt:#f5f5f0;--mut:#9a9a93;--gold:#d4af37;--green:#7cc66a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6;}
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 48px;}
+  h1{font-size:24px;font-weight:600;margin:0 0 4px;}
+  h1 span{color:var(--gold);}
+  .sub{color:var(--mut);font-size:14px;margin:0 0 24px;}
+  label{font-size:13px;color:var(--mut);display:block;margin-bottom:6px;}
+  select,input[type=number]{width:100%;background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:9px 10px;font-size:15px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:16px;}
+  .rangerow{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  input[type=range]{flex:1;accent-color:var(--gold);}
+  .chk{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut);margin-bottom:22px;}
+  input[type=checkbox]{accent-color:var(--gold);width:16px;height:16px;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:18px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;}
+  .card .lab{font-size:12px;color:var(--mut);}
+  .card .val{font-size:22px;font-weight:600;margin-top:2px;}
+  .val.med{color:var(--green);}
+  .resumen{font-size:14px;color:var(--txt);background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:18px;}
+  .resumen b{color:var(--gold);}
+  .chartbox{position:relative;width:100%;height:300px;}
+  .disc{font-size:11.5px;color:var(--mut);margin-top:14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Calculadora de ahorro <span>· JaviTrader Inversión</span></h1>
+  <p class="sub">Estima cuánto puede crecer tu ahorro con la cartera de gestión activa. Mueve los controles.</p>
+  <div class="grid">
+    <div><label>Perfil</label>
+      <select id="perfil">
+        <option value="P">Prudente</option>
+        <option value="E" selected>Equilibrado</option>
+        <option value="C">Crecimiento</option>
+      </select></div>
+    <div><label>Aportación mensual (€)</label><input type="number" id="mensual" value="100" min="0" step="10"></div>
+    <div><label>Capital inicial (€)</label><input type="number" id="inicial" value="0" min="0" step="100"></div>
+  </div>
+  <div class="rangerow"><label style="margin:0;">Años</label><input type="range" id="anios" min="1" max="30" value="10"><span id="anios-out" style="min-width:60px;font-weight:600;">10 años</span></div>
+  <div class="chk"><input type="checkbox" id="cripto" checked><label for="cripto" style="margin:0;">Incluir cripto (Bitcoin/Ethereum)</label></div>
+  <div class="cards">
+    <div class="card"><div class="lab">Aportado</div><div class="val" id="m-aport">—</div></div>
+    <div class="card"><div class="lab">Resultado medio</div><div class="val med" id="m-med">—</div></div>
+    <div class="card"><div class="lab">Pesimista</div><div class="val" id="m-p10">—</div></div>
+    <div class="card"><div class="lab">Optimista</div><div class="val" id="m-p90">—</div></div>
+  </div>
+  <div class="resumen" id="resumen"></div>
+  <div class="chartbox"><canvas id="cc"></canvas></div>
+  <p class="disc">Estimación con 2.000 escenarios y rentabilidad conservadora basada en datos históricos. Rentabilidades pasadas o simuladas no garantizan resultados futuros. No es asesoramiento financiero.</p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const PAR={P:{mu:0.055,sig:0.12,c:'#5a9bd8'},E:{mu:0.075,sig:0.15,c:'#7cc66a'},C:{mu:0.095,sig:0.20,c:'#d4af37'}};
+const eur=(x)=>Math.round(x).toLocaleString('es-ES')+' €';
+function randn(){let u=0,v=0;while(u===0)u=Math.random();while(v===0)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+function pct(a,q){const s=a.slice().sort((x,y)=>x-y);return s[Math.floor(q*(s.length-1))];}
+let chart;
+function calc(){
+  const pf=document.getElementById('perfil').value;
+  const mensual=Math.max(0,+document.getElementById('mensual').value||0);
+  const inicial=Math.max(0,+document.getElementById('inicial').value||0);
+  const Y=+document.getElementById('anios').value;
+  const cripto=document.getElementById('cripto').checked;
+  document.getElementById('anios-out').textContent=Y+(Y===1?' año':' años');
+  let {mu,sig,c}=PAR[pf];
+  if(!cripto){mu=Math.max(0.03,mu-0.015);sig=Math.max(0.08,sig-0.02);}
+  const months=Y*12,mm=Math.pow(1+mu,1/12)-1,sm=sig/Math.sqrt(12),NS=2000;
+  const cols=[];for(let y=0;y<=Y;y++)cols.push([]);
+  for(let s=0;s<NS;s++){let cap=inicial;cols[0].push(cap);
+    for(let m=1;m<=months;m++){cap=(cap+mensual)*(1+mm+sm*randn());if(m%12===0)cols[m/12].push(cap);}}
+  const labels=[],contrib=[],p10=[],p50=[],p90=[];
+  for(let y=0;y<=Y;y++){labels.push(y);contrib.push(inicial+mensual*12*y);
+    p10.push(pct(cols[y],0.10));p50.push(pct(cols[y],0.50));p90.push(pct(cols[y],0.90));}
+  const aport=inicial+mensual*months;
+  document.getElementById('m-aport').textContent=eur(aport);
+  document.getElementById('m-med').textContent=eur(p50[Y]);
+  document.getElementById('m-p10').textContent=eur(p10[Y]);
+  document.getElementById('m-p90').textContent=eur(p90[Y]);
+  const gan=aport>0?Math.round((p50[Y]/aport-1)*100):0;
+  document.getElementById('resumen').innerHTML=`En ${Y} años aportas <b>${eur(aport)}</b> y de media tendrías <b>${eur(p50[Y])}</b> (${gan>=0?'+':''}${gan}% sobre lo aportado). En 8 de cada 10 escenarios acabas entre ${eur(p10[Y])} y ${eur(p90[Y])}.`;
+  const ds=[
+    {label:'Optimista',data:p90,borderColor:'transparent',pointRadius:0,fill:false},
+    {label:'banda',data:p10,borderColor:'transparent',backgroundColor:c+'33',pointRadius:0,fill:'-1'},
+    {label:'Resultado medio',data:p50,borderColor:c,borderWidth:2.5,pointRadius:0,tension:.1},
+    {label:'Aportado',data:contrib,borderColor:'#888780',borderWidth:1.5,borderDash:[5,4],pointRadius:0}];
+  if(chart){chart.data.labels=labels;chart.data.datasets=ds;chart.update();}
+  else{chart=new Chart(document.getElementById('cc'),{type:'line',data:{labels,datasets:ds},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+     plugins:{legend:{display:false},tooltip:{filter:(i)=>i.dataset.label!=='Optimista'&&i.dataset.label!=='banda',callbacks:{title:(t)=>'Año '+t[0].label,label:(x)=>x.dataset.label+': '+eur(x.parsed.y)}}},
+     scales:{x:{title:{display:true,text:'Años',color:'#9a9a93'},grid:{display:false},ticks:{color:'#9a9a93'}},
+       y:{ticks:{color:'#9a9a93',callback:(v)=>(v>=1000?(v/1000)+'k':v)+' €'},grid:{color:'rgba(255,255,255,0.06)'}}}}});}
+}
+['perfil','mensual','inicial','anios','cripto'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',calc);
+  document.getElementById(id).addEventListener('change',calc);});
+calc();
+</script>
+</body>
+</html>
