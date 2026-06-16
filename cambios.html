@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de cambios · JaviTrader Señales</title>
+<style>
+  :root{--bg:#0c0c0e;--card:#16161a;--line:#2a2a30;--txt:#f5f5f0;--mut:#9a9a93;--gold:#d4af37;}
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+  .wrap{max-width:760px;margin:0 auto;padding:30px 20px 56px}
+  h1{font-size:24px;font-weight:600;margin:0 0 4px}h1 span{color:var(--gold)}
+  .sub{color:var(--mut);font-size:13px;margin:0 0 24px}
+  .item{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:12px}
+  .date{color:var(--gold);font-weight:600;font-size:13px}
+  .item p{margin:6px 0 0;font-size:14.5px}
+  .disc{font-size:12px;color:var(--mut);margin-top:18px}
+  a{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Registro de cambios <span>· Señales</span></h1>
+  <p class="sub">Por transparencia, documentamos aquí cualquier ajuste en las estrategias durante el forward testing. Así el track record sigue siendo honesto: se ve qué cambió y cuándo.</p>
+
+  <div class="item">
+    <span class="date">Junio 2026 — Arranque del forward testing público</span>
+    <p>Inicio del registro en vivo de las dos estrategias:</p>
+    <p>• <b>Swing 1D</b>: ruptura de Donchian (30) + filtro de tendencia EMA200 y ADX, con salida por stop / objetivo / trailing.<br>
+       • <b>Intradía 4h</b>: ruptura con volumen, con gestión parcial + trailing.</p>
+    <p>Gestión de riesgo de referencia: 1% de la cuenta por operación. Sin cambios sobre las estrategias validadas en backtest.</p>
+  </div>
+
+  <p class="disc">Cualquier modificación futura (parámetros, activos, reglas) aparecerá aquí con su fecha. · <a href="senales.html">Volver</a> · <a href="track-record.html">Track record</a></p>
+</div>
+</body>
+</html>
