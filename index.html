@@ -1,192 +1,332 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JaviTrader — Los mercados, leídos con método</title>
+<meta name="description" content="Análisis técnico, contexto fundamental y seguimiento de la actualidad. Un enfoque metódico para operar e invertir, sin hype ni predicciones.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.7.0/dist/tabler-icons.min.css">
+<style>
+  :root{
+    --bg:#0A0A0C; --surface:#131316; --surface-2:#1A1A1E;
+    --gold:#B89357; --gold-bright:#CDA968;
+    --line:rgba(255,255,255,0.08); --line-gold:rgba(184,147,87,0.22);
+    --txt:#ECEAE3; --txt-dim:#9A968C; --txt-mute:#6F6C64; --green:#5f9d78;
+    --header-bg:rgba(10,10,12,0.82); --card-shadow:none; --cta-text:#1a1407;
+    --maxw:1060px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--txt); font-family:'Inter',system-ui,sans-serif; -webkit-font-smoothing:antialiased; line-height:1.65;}
+  a{text-decoration:none; color:inherit;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 26px;}
+  .serif{font-family:'Newsreader',Georgia,serif; font-weight:400;}
+  .label{font-size:11.5px; letter-spacing:3px; text-transform:uppercase; color:var(--gold);}
+  section{border-top:1px solid var(--line);}
 
-  <!-- ====== TEXTOS DE MARCA ====== -->
-  <title>JaviTrader · Enlaces</title>
-  <meta name="description" content="Análisis diario del mercado · Bitcoin · Criptomonedas · Macro. Todos mis enlaces en un solo sitio." />
+  header{position:sticky; top:0; z-index:10; background:var(--header-bg); backdrop-filter:blur(12px); border-bottom:1px solid var(--line);}
+  .hrow{display:flex; align-items:center; justify-content:space-between; padding:17px 0;}
+  .brand{display:flex; align-items:center; gap:11px;}
+  .brand-mark{width:30px; height:30px; border-radius:6px; background:var(--gold); display:flex; align-items:center; justify-content:center; color:var(--cta-text); font-size:18px;}
+  .brand-name{font-size:16px; font-weight:600; letter-spacing:1px; text-transform:uppercase;}
+  .brand-name span{color:var(--gold);}
+  nav{display:flex; gap:30px; font-size:13.5px; color:var(--txt-dim); letter-spacing:0.2px;}
+  nav a:hover{color:var(--gold);}
+  .btn{display:inline-flex; align-items:center; gap:8px; font-size:13.5px; font-weight:500; padding:11px 22px; border-radius:7px; transition:all .15s ease; cursor:pointer; border:1px solid transparent; letter-spacing:0.2px;}
+  .btn-gold{background:var(--gold); color:var(--cta-text);}
+  .btn-gold:hover{background:var(--gold-bright);}
+  .btn-ghost{border-color:var(--line-gold); color:var(--txt);}
+  .btn-ghost:hover{border-color:var(--gold); color:var(--gold);}
+  .nav-cta{padding:9px 18px;}
 
-  <!-- Vista previa al compartir (WhatsApp / Telegram / X) -->
-  <meta property="og:title" content="JaviTrader · Todos mis enlaces" />
-  <meta property="og:description" content="Análisis diario del mercado · Bitcoin · Criptomonedas · Macro." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://comerciante220600-ui.github.io/javitrader-bio/" />
-  <meta property="og:image" content="https://comerciante220600-ui.github.io/javitrader-bio/banner.png" />
-  <meta name="twitter:card" content="summary_large_image" />
+  .hero{text-align:center; padding:96px 0 72px;}
+  .hero .label{margin-bottom:26px;}
+  .hero h1{font-size:60px; line-height:1.07; letter-spacing:-0.6px; margin-bottom:26px; font-weight:400;}
+  .hero h1 em{font-style:italic; color:var(--gold);}
+  .hero .sub{font-size:18px; color:var(--txt-dim); max-width:600px; margin:0 auto 36px; line-height:1.7;}
+  .hero-cta{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .trust{display:flex; gap:0; justify-content:center; flex-wrap:wrap; margin-top:60px; border-top:1px solid var(--line);}
+  .trust-item{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--txt-dim); padding:22px 28px; border-right:1px solid var(--line);}
+  .trust-item:last-child{border-right:none;}
+  .trust-item i{color:var(--gold); font-size:17px;}
 
-  <link rel="icon" href="logo.png" />
+  .sec-head{text-align:center; max-width:600px; margin:0 auto 52px;}
+  .sec-head .label{display:block; margin-bottom:18px;}
+  .sec-head h2{font-size:38px; line-height:1.18; letter-spacing:-0.3px; margin-bottom:16px; font-weight:400;}
+  .sec-head p{font-size:16px; color:var(--txt-dim); line-height:1.7;}
+  .pad{padding:92px 0;}
 
-  <style>
-    /* ====== BRANDING JAVITRADER: negro + dorado ====== */
-    :root {
-      --bg: #0a0a0a;
-      --surface: #16140f;
-      --surface-hover: #1f1c14;
-      --border: rgba(230,172,26,0.14);
-      --border-strong: rgba(230,172,26,0.40);
-      --text: #f6f3ea;
-      --text-dim: #a39a82;
-      --accent: #e6ac1a;          /* dorado del logo */
-      --accent-soft: rgba(230,172,26,0.12);
-    }
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:4px; overflow:hidden;}
+  .card{background:var(--bg); padding:30px 28px; display:flex; flex-direction:column; transition:background .18s ease;}
+  .card.live:hover{background:var(--surface);}
+  .card-top{display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:22px;}
+  .icon{width:44px; height:44px; border-radius:8px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:23px; border:1px solid var(--line-gold);}
+  .card.soon .icon{color:var(--txt-mute); border-color:var(--line);}
+  .badge{font-size:10.5px; letter-spacing:1px; text-transform:uppercase; padding:5px 10px; border-radius:3px; display:flex; align-items:center; gap:6px; white-space:nowrap;}
+  .badge.on{color:var(--green); background:rgba(95,157,120,0.12);}
+  .badge.on .dot{width:6px; height:6px; border-radius:50%; background:var(--green);}
+  .badge.off{color:var(--txt-mute); background:rgba(255,255,255,0.05);}
+  .card h3{font-size:21px; font-weight:400; margin-bottom:6px; font-family:'Newsreader',serif;}
+  .card .csub{font-size:12px; letter-spacing:0.5px; text-transform:uppercase; color:var(--gold); margin-bottom:20px;}
+  .card.soon .csub{color:var(--txt-mute);}
+  .bullets{list-style:none; margin:0 0 26px; flex:1;}
+  .bullets li{font-size:14px; color:var(--txt-dim); display:flex; gap:11px; align-items:flex-start; margin-bottom:11px; line-height:1.5;}
+  .bullets li i{color:var(--gold); font-size:15px; margin-top:3px;}
+  .card.soon .bullets li i{color:var(--txt-mute);}
+  .cta{font-size:13.5px; font-weight:500; color:var(--gold); display:flex; align-items:center; gap:8px; letter-spacing:0.2px;}
+  .cta.muted{color:var(--txt-mute);}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+  .method{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:40px;}
+  .pillar .picon{width:40px; height:40px; display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:24px; margin-bottom:20px;}
+  .pillar h4{font-size:20px; font-weight:400; margin-bottom:10px; font-family:'Newsreader',serif;}
+  .pillar p{font-size:14.5px; color:var(--txt-dim); line-height:1.7;}
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      padding: 44px 18px 60px;
-      -webkit-font-smoothing: antialiased;
-    }
+  .faq{max-width:760px; margin:0 auto;}
+  details{border-bottom:1px solid var(--line); padding:24px 0;}
+  summary{font-size:17px; font-weight:400; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:'Newsreader',serif;}
+  summary::-webkit-details-marker{display:none;}
+  summary i{color:var(--gold); transition:transform .2s ease; flex-shrink:0; font-size:18px;}
+  details[open] summary i{transform:rotate(45deg);}
+  details p{font-size:15px; color:var(--txt-dim); margin-top:15px; max-width:680px; line-height:1.7;}
 
-    .card {
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
-      animation: rise 0.5s ease both;
-    }
-    @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .final{text-align:center; padding:104px 0;}
+  .final h2{font-size:42px; line-height:1.15; margin-bottom:16px; font-weight:400;}
+  .final p{font-size:16.5px; color:var(--txt-dim); max-width:480px; margin:0 auto 30px; line-height:1.7;}
 
-    /* Banner de cabecera (imagen de X/YouTube) */
-    .banner {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      display: block;
-    }
+  footer{border-top:1px solid var(--line); padding:44px 0 54px;}
+  .frow{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; margin-bottom:30px;}
+  .social{display:flex; gap:22px; color:var(--txt-dim); font-size:19px;}
+  .social a:hover{color:var(--gold);}
+  .disclaimer{font-size:11.5px; color:var(--txt-mute); line-height:1.8; border-top:1px solid var(--line); padding-top:26px; max-width:820px;}
 
-    .avatar {
-      width: 104px; height: 104px;
-      border-radius: 50%;
-      margin: -52px auto 16px;   /* solapa el banner */
-      position: relative; z-index: 2;
-      object-fit: cover;
-      display: flex; align-items: center; justify-content: center;
-      background: #000;
-      color: var(--accent);
-      font-size: 36px; font-weight: 700; letter-spacing: 1px;
-      border: 3px solid var(--bg);
-    }
-
-    h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
-    .bio { color: var(--text-dim); font-size: 13.5px; margin-top: 6px; line-height: 1.5; }
-
-    .links { display: flex; flex-direction: column; gap: 12px; margin-top: 26px; }
-
-    .link {
-      display: flex; align-items: center; gap: 14px;
-      padding: 15px 18px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      color: var(--text);
-      text-decoration: none;
-      font-size: 15px; font-weight: 500;
-      transition: background 0.15s, transform 0.12s, border-color 0.15s;
-    }
-    .link:hover { background: var(--surface-hover); border-color: var(--border-strong); transform: translateY(-1px); }
-    .link:active { transform: scale(0.99); }
-    .link .ico { width: 22px; height: 22px; flex-shrink: 0; color: var(--accent); }
-    .link .label { flex: 1; text-align: left; }
-    .link .chev { width: 16px; height: 16px; color: var(--text-dim); opacity: 0.5; }
-
-    /* Botón destacado (premium) */
-    .link.featured {
-      background: var(--accent-soft);
-      border-color: var(--accent);
-    }
-    .link.featured .label { color: var(--accent); }
-    .badge {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
-      background: var(--accent); color: #1a1300;
-      padding: 3px 8px; border-radius: 20px;
-    }
-
-    .section-label {
-      font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--text-dim); margin: 16px 4px 2px; text-align: left;
-    }
-
-    .footer { margin-top: 28px; font-size: 12px; color: var(--text-dim); }
-    .footer a { color: var(--accent); text-decoration: none; }
-  </style>
+  @media(max-width:640px){
+    .hero{padding:64px 0 52px;}
+    .hero h1{font-size:40px;}
+    .hero .sub{font-size:16px;}
+    .sec-head h2,.final h2{font-size:29px;}
+    .pad,.final{padding:64px 0;}
+    nav,.nav-cta{display:none;}
+    .trust-item{padding:16px 18px; border-right:none;}
+  }
+</style>
 </head>
 <body>
-  <main class="card">
 
-    <!-- Banner de cabecera (mismo de X/YouTube) -->
-    <img class="banner" src="banner.png" alt="JaviTrader · análisis diario del mercado"
-         onerror="this.style.display='none'" />
+<header>
+  <div class="wrap hrow">
+    <div class="brand">
+      <span class="brand-mark"><i class="ti ti-chart-line"></i></span>
+      <span class="brand-name">Javi<span>Trader</span></span>
+    </div>
+    <nav>
+      <a href="#servicios">Servicios</a>
+      <a href="#enfoque">El enfoque</a>
+      <a href="#faq">Preguntas</a>
+    </nav>
+    <a class="btn btn-gold nav-cta" href="https://t.me/COMUNIDADJAVITRADER" target="_blank" rel="noopener">Acceso abierto</a>
+  </div>
+</header>
 
-    <!-- Usa tu logo logo.png; si no carga, muestra "JT" en dorado -->
-    <img class="avatar" src="logo.png" alt="JaviTrader"
-         onerror="this.outerHTML='&lt;div class=&quot;avatar&quot;&gt;JT&lt;/div&gt;'" />
+<div class="wrap">
 
-    <h1>JaviTrader</h1>
-    <p class="bio">Análisis diario del mercado · Bitcoin · Criptomonedas · Macro</p>
+  <section class="hero" style="border-top:none;">
+    <span class="label">Análisis técnico · Mercados</span>
+    <h1 class="serif">Los mercados,<br>leídos <em>con método</em></h1>
+    <p class="sub">Análisis técnico, contexto fundamental y seguimiento de la actualidad. Un enfoque disciplinado para operar e invertir — sin hype, sin predicciones, con criterio.</p>
+    <div class="hero-cta">
+      <a class="btn btn-gold" href="https://t.me/COMUNIDADJAVITRADER" target="_blank" rel="noopener">Acceso abierto a la comunidad</a>
+      <a class="btn btn-ghost" href="#servicios">Ver los servicios</a>
+    </div>
+    <div class="trust">
+      <span class="trust-item"><i class="ti ti-timeline-event"></i>Metodología de análisis técnico</span>
+      <span class="trust-item"><i class="ti ti-news"></i>Contexto fundamental y actualidad</span>
+      <span class="trust-item"><i class="ti ti-shield-check"></i>Sin promesas de rentabilidad</span>
+    </div>
+  </section>
 
-    <!-- ====== ENLACES ====== -->
-    <div class="links">
+  <section class="pad" id="servicios">
+    <div class="sec-head">
+      <span class="label">Servicios</span>
+      <h2 class="serif">Todo en un mismo lugar</h2>
+      <p>Cada servicio responde a un objetivo distinto. Empiece por el acceso abierto y avance cuando lo considere.</p>
+    </div>
+    <div class="grid">
 
-      <a class="link featured" href="https://t.me/COMUNIDADJAVITRADER" target="_blank" rel="noopener">
-        <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.7 0-8 1.3-8 4v3h9v-3c0-1 .4-1.9 1-2.6C8.9 13.1 8 13 8 13zm8 0c-.3 0-.7 0-1.2.1 1 .7 1.7 1.7 1.7 2.9v3H24v-3c0-2.7-5.3-4-8-4z"/></svg>
-        <span class="label">Únete a la comunidad de Telegram</span>
-        <span class="badge">NUEVO</span>
+      <a class="card live" href="https://t.me/COMUNIDADJAVITRADER" target="_blank" rel="noopener">
+        <div class="card-top">
+          <span class="icon"><i class="ti ti-users-group"></i></span>
+          <span class="badge on"><span class="dot"></span>Activo</span>
+        </div>
+        <h3>Acceso abierto</h3>
+        <div class="csub">Punto de entrada · Sin coste</div>
+        <ul class="bullets">
+          <li><i class="ti ti-minus"></i>Lecturas técnicas de mercado</li>
+          <li><i class="ti ti-minus"></i>Seguimiento de la actualidad</li>
+          <li><i class="ti ti-minus"></i>Comunidad y foro abiertos</li>
+        </ul>
+        <span class="cta">Solicitar acceso <i class="ti ti-arrow-right"></i></span>
       </a>
 
-      <a class="link" href="https://youtube.com/@javitraderr" target="_blank" rel="noopener">
-        <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>
-        <span class="label">Análisis diarios en YouTube</span>
-        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      <a class="card live" href="https://t.me/javitrader_senales_bot" target="_blank" rel="noopener">
+        <div class="card-top">
+          <span class="icon"><i class="ti ti-chart-candle"></i></span>
+          <span class="badge on"><span class="dot"></span>Activo</span>
+        </div>
+        <h3>Señales de trading</h3>
+        <div class="csub">Operativa · Cripto (perps)</div>
+        <ul class="bullets">
+          <li><i class="ti ti-minus"></i>Swing (diario) e intradía (4h)</li>
+          <li><i class="ti ti-minus"></i>Ejecutables en BingX y Bitunix</li>
+          <li><i class="ti ti-minus"></i>Cada operación, con su tesis técnica</li>
+        </ul>
+        <span class="cta">Acceder al servicio <i class="ti ti-arrow-right"></i></span>
       </a>
 
-      <a class="link featured" href="https://t.me/radarmacro" target="_blank" rel="noopener">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 16.2a6 6 0 0 0 0-8.4M5 5a9.5 9.5 0 0 0 0 14M19 19a9.5 9.5 0 0 0 0-14"/></svg>
-        <span class="label">Radar Macro · última hora de mercados</span>
-        <span class="badge">NUEVO</span>
+      <div class="card soon">
+        <div class="card-top">
+          <span class="icon"><i class="ti ti-briefcase"></i></span>
+          <span class="badge off">Próximamente</span>
+        </div>
+        <h3>Cartera TAA</h3>
+        <div class="csub">Multiactivo · Largo plazo</div>
+        <ul class="bullets">
+          <li><i class="ti ti-minus"></i>Acciones, ETFs, índices, cripto, bonos y letras del Tesoro</li>
+          <li><i class="ti ti-minus"></i>Rotación sistemática hacia lo más rentable en cada momento</li>
+          <li><i class="ti ti-minus"></i>Indicamos qué comprar; cada inversor, en su divisa (USD o EUR)</li>
+        </ul>
+        <span class="cta muted">Lista de espera</span>
+      </div>
+
+      <div class="card soon">
+        <div class="card-top">
+          <span class="icon"><i class="ti ti-school"></i></span>
+          <span class="badge off">Próximamente</span>
+        </div>
+        <h3>Formación</h3>
+        <div class="csub">Programa modular</div>
+        <ul class="bullets">
+          <li><i class="ti ti-minus"></i>Del fundamento al sistema completo</li>
+          <li><i class="ti ti-minus"></i>Por módulos: avance a su ritmo</li>
+          <li><i class="ti ti-minus"></i>Acceso privado individual</li>
+        </ul>
+        <span class="cta muted">Reservar interés</span>
+      </div>
+
+      <a class="card live" href="https://javitrader.net/calculadora.html" target="_blank" rel="noopener">
+        <div class="card-top">
+          <span class="icon"><i class="ti ti-calculator"></i></span>
+          <span class="badge on"><span class="dot"></span>Activo</span>
+        </div>
+        <h3>Herramientas</h3>
+        <div class="csub">Calculadora · Acceso libre</div>
+        <ul class="bullets">
+          <li><i class="ti ti-minus"></i>Calculadora de inversión con la estrategia TAA</li>
+          <li><i class="ti ti-minus"></i>Gratuita y de acceso libre</li>
+          <li><i class="ti ti-minus"></i>Más utilidades, en camino</li>
+        </ul>
+        <span class="cta">Abrir la calculadora <i class="ti ti-arrow-right"></i></span>
       </a>
 
-      <a class="link featured" href="https://t.me/javitrader_senales_bot" target="_blank" rel="noopener">
-        <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4.5 13.5h6L9 22l9.5-12h-6.5z"/></svg>
-        <span class="label">Bot de señales · gratis</span>
-        <span class="badge">SEÑALES</span>
-      </a>
-
-      <a class="link" href="calculadora.html" rel="noopener">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2.5" width="14" height="19" rx="2"/><rect x="8" y="5.5" width="8" height="3.5" rx="0.5"/><circle cx="8.5" cy="13" r="0.7" fill="currentColor" stroke="none"/><circle cx="12" cy="13" r="0.7" fill="currentColor" stroke="none"/><circle cx="15.5" cy="13" r="0.7" fill="currentColor" stroke="none"/><circle cx="8.5" cy="17" r="0.7" fill="currentColor" stroke="none"/><circle cx="12" cy="17" r="0.7" fill="currentColor" stroke="none"/><circle cx="15.5" cy="17" r="0.7" fill="currentColor" stroke="none"/></svg>
-        <span class="label">Calculadora de ahorro</span>
-        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
-      </a>
-
-      <p class="section-label">Exchanges recomendados</p>
-
-      <a class="link" href="https://www.bitunix.com/register?vipCode=JaviTrader" target="_blank" rel="noopener">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.5 5 5.5.8-4 3.9 1 5.5L12 20l-5 2.6 1-5.5-4-3.9 5.5-.8z"/></svg>
-        <span class="label">Bitunix · bonus de bienvenida</span>
-        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
-      </a>
-
-      <a class="link" href="https://bingxdao.com/partner/JaviTrade" target="_blank" rel="noopener">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.5 5 5.5.8-4 3.9 1 5.5L12 20l-5 2.6 1-5.5-4-3.9 5.5-.8z"/></svg>
-        <span class="label">BingX · descuento en comisiones</span>
-        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      <a class="card live" href="#enfoque">
+        <div class="card-top">
+          <span class="icon"><i class="ti ti-compass"></i></span>
+        </div>
+        <h3>El enfoque</h3>
+        <div class="csub">Metodología y principios</div>
+        <ul class="bullets">
+          <li><i class="ti ti-minus"></i>Cómo se toman las decisiones</li>
+          <li><i class="ti ti-minus"></i>Qué papel juega cada dato</li>
+          <li><i class="ti ti-minus"></i>Qué esperar — y qué no</li>
+        </ul>
+        <span class="cta">Conocer el método <i class="ti ti-arrow-right"></i></span>
       </a>
 
     </div>
+  </section>
 
-    <p class="footer">© <span id="year"></span> JaviTrader</p>
-  </main>
+  <section class="pad" id="enfoque">
+    <div class="sec-head">
+      <span class="label">El enfoque</span>
+      <h2 class="serif">Un método, no una promesa</h2>
+      <p>No encontrará señales mágicas ni promesas de rentabilidad. Encontrará disciplina, criterio y transparencia. Todo lo que se afirma, se sostiene.</p>
+    </div>
+    <div class="method">
+      <div class="pillar">
+        <span class="picon"><i class="ti ti-ruler-measure"></i></span>
+        <h4>Método sobre intuición</h4>
+        <p>Las decisiones se apoyan en análisis técnico y reglas definidas, no en corazonadas ni en el ruido del mercado.</p>
+      </div>
+      <div class="pillar">
+        <span class="picon"><i class="ti ti-news"></i></span>
+        <h4>Contexto, no titulares</h4>
+        <p>Seguimos el fundamental y la actualidad para entender el porqué, no para reaccionar al pánico del momento.</p>
+      </div>
+      <div class="pillar">
+        <span class="picon"><i class="ti ti-scale"></i></span>
+        <h4>Riesgo y transparencia</h4>
+        <p>Hablamos de probabilidades y de gestión del riesgo. Sin garantías, sin "x100", sin letra pequeña.</p>
+      </div>
+    </div>
+  </section>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <section class="pad" id="faq">
+    <div class="sec-head">
+      <span class="label">Preguntas frecuentes</span>
+      <h2 class="serif">Antes de empezar</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>¿Qué tipo de análisis hacéis? <i class="ti ti-plus"></i></summary>
+        <p>Principalmente análisis técnico, apoyado en el seguimiento del contexto fundamental y la actualidad. No hacemos predicciones; interpretamos lo que el mercado está mostrando.</p>
+      </details>
+      <details>
+        <summary>¿Las señales garantizan rentabilidad? <i class="ti ti-plus"></i></summary>
+        <p>No. Ninguna metodología garantiza beneficios. El riesgo de pérdida es real y siempre lo explicitamos. La gestión del riesgo es parte central del enfoque.</p>
+      </details>
+      <details>
+        <summary>¿Hay algo gratuito? <i class="ti ti-plus"></i></summary>
+        <p>Sí. El acceso a la comunidad y las lecturas de mercado son gratuitos. La cartera de largo plazo y la formación serán servicios de pago cuando se lancen.</p>
+      </details>
+      <details>
+        <summary>¿Esto es asesoramiento financiero? <i class="ti ti-plus"></i></summary>
+        <p>No. Es contenido formativo y de análisis de mercado. No constituye asesoramiento de inversión personalizado. Las decisiones son siempre suyas.</p>
+      </details>
+    </div>
+  </section>
+
+</div>
+
+<section class="final" style="border-top:none;">
+  <div class="wrap">
+    <span class="label">Empiece aquí</span>
+    <h2 class="serif" style="margin-top:22px;">El acceso abierto es gratuito</h2>
+    <p>Sin coste y sin compromiso. Entre, observe cómo se trabaja, y decida después.</p>
+    <a class="btn btn-gold" href="https://t.me/COMUNIDADJAVITRADER" target="_blank" rel="noopener">Acceso abierto a la comunidad</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="frow">
+      <div class="brand">
+        <span class="brand-mark"><i class="ti ti-chart-line"></i></span>
+        <span class="brand-name">Javi<span>Trader</span></span>
+      </div>
+      <div class="social">
+        <a href="https://youtube.com/@javitraderr" target="_blank" rel="noopener" aria-label="YouTube"><i class="ti ti-brand-youtube"></i></a>
+        <a href="https://t.me/COMUNIDADJAVITRADER" target="_blank" rel="noopener" aria-label="Telegram"><i class="ti ti-brand-telegram"></i></a>
+        <a href="https://x.com/javintrader" target="_blank" rel="noopener" aria-label="X"><i class="ti ti-brand-x"></i></a>
+        <a href="https://www.instagram.com/javintrader" target="_blank" rel="noopener" aria-label="Instagram"><i class="ti ti-brand-instagram"></i></a>
+        <a href="https://www.tiktok.com/@javintrader" target="_blank" rel="noopener" aria-label="TikTok"><i class="ti ti-brand-tiktok"></i></a>
+        <a href="https://www.threads.com/@javintrader" target="_blank" rel="noopener" aria-label="Threads"><i class="ti ti-brand-threads"></i></a>
+      </div>
+    </div>
+    <p class="disclaimer">© 2026 JaviTrader. JaviTrader ofrece contenido educativo y de análisis de mercado; no constituye asesoramiento financiero ni de inversión. La inversión y el trading en criptoactivos, valores y otros instrumentos financieros conllevan un alto riesgo de pérdida del capital invertido. Las rentabilidades pasadas no garantizan rentabilidades futuras. Opere e invierta únicamente con capital que pueda permitirse perder.</p>
+  </div>
+</footer>
+
 </body>
 </html>
