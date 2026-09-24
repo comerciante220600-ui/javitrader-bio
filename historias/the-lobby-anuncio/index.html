@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>THE LOBBY · Historia de anuncio</title>
+<!-- Historias 1080x1920 para Instagram. Se renderizan a PNG con render.js -->
+<style>
+  /* Fuentes locales (assets/fonts) para que el render no dependa de internet */
+  @font-face{font-family:'Anton'; src:url(assets/fonts/anton-latin-400-normal.woff2) format('woff2'); font-weight:400;}
+  @font-face{font-family:'Inter'; src:url(assets/fonts/inter-latin-500-normal.woff2) format('woff2'); font-weight:500;}
+  @font-face{font-family:'Inter'; src:url(assets/fonts/inter-latin-600-normal.woff2) format('woff2'); font-weight:600;}
+  @font-face{font-family:'Inter'; src:url(assets/fonts/inter-latin-700-normal.woff2) format('woff2'); font-weight:700;}
+  @font-face{font-family:'Inter'; src:url(assets/fonts/inter-latin-800-normal.woff2) format('woff2'); font-weight:800;}
+  :root{
+    --navy:#031A36; --navy-logo:#001534; --gold:#F5B51B; --red:#E53935; --black:#050505; --white:#F5F5F2;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:#222; display:flex; flex-direction:column; gap:40px; align-items:center; padding:40px 0; font-family:'Inter',sans-serif;}
+  .story{width:1080px; height:1920px; position:relative; overflow:hidden; color:var(--white);
+    background:radial-gradient(ellipse 90% 60% at 50% 45%, #0a2a52 0%, var(--navy) 55%, #010d1d 100%);}
+  /* grano: textura de marca (dinero + internet + underground) */
+  .story::after{content:""; position:absolute; inset:0; pointer-events:none; opacity:.16; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");}
+  .display{font-family:'Anton',sans-serif; text-transform:uppercase; line-height:.92; letter-spacing:1px;}
+  .gold{background:linear-gradient(180deg,#FFD35A 0%,var(--gold) 45%,#C98A0C 100%); -webkit-background-clip:text; background-clip:text; color:transparent; padding-top:.14em; margin-top:-.14em;}
+  .red{color:var(--red);}
+  .terminal{font-family:'Inter',sans-serif; font-weight:700; font-size:30px; letter-spacing:6px; text-transform:uppercase;}
+  .rule{display:flex; align-items:center; gap:22px; color:var(--gold);}
+  .rule::before,.rule::after{content:""; height:4px; flex:1; background:var(--gold);}
+  .rule svg{width:44px; height:60px; flex-shrink:0;}
+  .ticker{position:absolute; left:0; right:0; height:74px; background:var(--gold); color:var(--navy); display:flex; align-items:center;
+    white-space:nowrap; font-family:'Anton',sans-serif; font-size:40px; letter-spacing:3px; overflow:hidden;}
+  .ticker span{padding-left:30px;}
+  .ticker b{color:var(--red); font-weight:400; padding:0 18px;}
+
+  /* ---------- 01 · ANUNCIO ---------- */
+  #s1 .top{position:absolute; top:230px; left:0; right:0; text-align:center;}
+  #s1 .kicker{color:var(--red);}
+  #s1 .logo{position:absolute; top:270px; left:40px; width:1000px; height:1000px;
+    -webkit-mask-image:radial-gradient(circle at 50% 50%, #000 58%, transparent 71%); mask-image:radial-gradient(circle at 50% 50%, #000 58%, transparent 71%);}
+  #s1 .claim{position:absolute; top:1185px; left:60px; right:60px; text-align:center;}
+  #s1 .claim .l1{font-size:78px; color:var(--white);}
+  #s1 .claim .l2{font-size:190px; margin-top:6px;}
+  #s1 .claim .l3{font-family:'Inter'; font-weight:600; font-size:34px; color:var(--white); opacity:.85; margin-top:26px; letter-spacing:.5px; line-height:1.35;}
+  #s1 .ticker{bottom:0;}
+
+  /* ---------- 02 · QUÉ ES ---------- */
+  #s2 .ticker{top:0;}
+  #s2 .head{position:absolute; top:250px; left:80px; right:80px;}
+  #s2 .head .terminal{color:var(--red); margin-bottom:26px;}
+  #s2 .head h2{font-size:150px;}
+  #s2 .pillars{position:absolute; top:760px; left:80px; right:80px; display:flex; flex-direction:column; gap:34px;}
+  #s2 .p{border-left:10px solid var(--gold); padding:6px 0 6px 34px;}
+  #s2 .p .t{font-size:104px;}
+  #s2 .p .d{font-weight:600; font-size:34px; opacity:.85; margin-top:6px;}
+  #s2 .devil{position:absolute; right:-60px; bottom:120px; width:560px; filter:drop-shadow(0 0 40px rgba(229,57,53,.25));}
+  #s2 .foot{position:absolute; left:80px; bottom:290px; width:520px;}
+  #s2 .foot p{font-weight:600; font-size:34px; line-height:1.35;}
+  #s2 .foot p b{color:var(--gold); font-weight:800;}
+
+  /* ---------- 03 · BUSCAMOS ---------- */
+  #s3 .head{position:absolute; top:250px; left:80px; right:80px;}
+  #s3 .head .terminal{color:var(--gold); margin-bottom:22px;}
+  #s3 .head h2{font-size:200px;}
+  #s3 .list{position:absolute; top:720px; left:80px; right:80px; display:flex; flex-direction:column; gap:26px;}
+  #s3 .item{display:flex; align-items:baseline; gap:30px;}
+  #s3 .item .n{font-family:'Anton'; font-size:56px; color:var(--red); width:78px; flex-shrink:0;}
+  #s3 .item .t{font-size:88px;}
+  #s3 .item .d{font-weight:600; font-size:30px; opacity:.85; margin-top:6px; max-width:600px; line-height:1.3;}
+  #s3 .devil{position:absolute; right:-40px; top:1190px; width:430px; filter:drop-shadow(0 0 40px rgba(229,57,53,.25));}
+  #s3 .cta{position:absolute; left:80px; width:620px; bottom:330px; background:var(--gold); color:var(--navy); border-radius:18px; padding:34px 40px; text-align:center;}
+  #s3 .cta .a{font-family:'Anton'; font-size:64px; text-transform:uppercase; line-height:1;}
+  #s3 .cta .b{font-weight:700; font-size:32px; margin-top:12px;}
+  #s3 .sign{position:absolute; left:80px; bottom:260px; text-align:left; font-weight:600; font-size:26px; letter-spacing:4px; text-transform:uppercase; opacity:.7;}
+</style>
+</head>
+<body>
+
+<!-- 01 · ANUNCIO -->
+<section class="story" id="s1">
+  <div class="top"><div class="terminal kicker">THE LOBBY // 000 · EN CONSTRUCCIÓN</div></div>
+  <img class="logo" src="assets/logo.jpg" alt="THE LOBBY">
+  <div class="claim">
+    <div class="display l1">No es un podcast más.</div>
+    <div class="display l2 gold">Es EL podcast</div>
+    <div class="l3">Dinero, poder y tecnología. Sin solemnidad.<br>Lo estamos montando. Y viene fuerte.</div>
+  </div>
+  <div class="ticker"><span>BTC ▲ <b>//</b> IA <b>//</b> NASDAQ ▼ <b>//</b> POLÍTICA <b>//</b> NEGOCIOS <b>//</b> MARKET OPEN <b>//</b> BTC ▲ <b>//</b> IA</span></div>
+</section>
+
+<!-- 02 · QUÉ ES -->
+<section class="story" id="s2">
+  <div class="ticker"><span>THE LOBBY <b>//</b> DINERO <b>//</b> PODER <b>//</b> TECNOLOGÍA <b>//</b> THE LOBBY <b>//</b> DINERO <b>//</b> PODER</span></div>
+  <div class="head">
+    <div class="terminal">Hot take</div>
+    <h2 class="display">De lo que <span class="gold">mueve<br>el mundo</span></h2>
+  </div>
+  <div class="pillars">
+    <div class="p"><div class="display t gold">Dinero</div><div class="d">Mercados, trading, cripto, inversión</div></div>
+    <div class="p"><div class="display t gold">Poder</div><div class="d">Política, influencia, decisiones</div></div>
+    <div class="p"><div class="display t gold">Tecnología</div><div class="d">IA, software, negocios digitales</div></div>
+  </div>
+  <div class="foot">
+    <p>3 presentadores.<br><b>1 invitado</b> que decide cosas de verdad.<br>Ni tertulia de tele ni podcast financiero de manual.</p>
+  </div>
+  <img class="devil" src="assets/devil-mic.png" alt="">
+</section>
+
+<!-- 03 · BUSCAMOS -->
+<section class="story" id="s3">
+  <div class="head">
+    <div class="terminal">THE LOBBY // Se abre la puerta</div>
+    <h2 class="display">Te<br><span class="gold">buscamos</span></h2>
+  </div>
+  <div class="list">
+    <div class="item"><span class="n">01</span><div><div class="display t gold">Ideas</div><div class="d">Temas, formatos, invitados que quieres ver sentados en la mesa</div></div></div>
+    <div class="item"><span class="n">02</span><div><div class="display t gold">Patrocinadores</div><div class="d">Marcas que quieran entrar desde el episodio 1. Condición de fundador</div></div></div>
+    <div class="item"><span class="n">03</span><div><div class="display t gold">Colaboradores</div><div class="d">Edición, diseño, producción, espacios, contactos</div></div></div>
+  </div>
+  <img class="devil" src="assets/devil-pointing.png" alt="">
+  <div class="cta"><div class="a">Escríbenos por DM</div><div class="b">o responde a esta historia ↓</div></div>
+  <div class="sign">Producido por Agente 404 × JaviTrader</div>
+</section>
+
+</body>
+</html>
