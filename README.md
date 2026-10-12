@@ -31,5 +31,5 @@ URL pública (GitHub Pages): `https://comerciante220600-ui.github.io/javitrader-
 - YouTube: https://youtube.com/@javitraderr
 - Telegram (gratis): https://t.me/CANALJAVITRADER
 - Telegram señales (premium): https://t.me/javitrader_senales_bot
-- Bitunix (afiliado): https://www.bitunix.com/register?vipCode=JaviTrader
+- Bitunix (afiliado): https://www.bitunix.com/register?vipCode=Javintrader
 - BingX (afiliado): https://bingxdao.com/partner/JaviTrade
